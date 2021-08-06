@@ -2,19 +2,25 @@ import React,{useState, useEffect, ReactNode, Context} from 'react';
 
 
 interface ICuestionaryContext {
-    preguntas: any,
-    setPreguntas: any,
-    siguiente: any
+    cuestionario: any,
+    setCuestionario: any,
+    siguientePregunta: any
 }
 
+interface ICuestionary {
+    id: number,
+    nombre: string, 
+    preguntas: []
+}
 
 //Creando contexto
-const CuestionaryContext = React.createContext <ICuestionaryContext | {}>({});
+const CuestionaryContext = React.createContext <ICuestionaryContext>({
+    cuestionario: [],
+    setCuestionario: null,
+    siguientePregunta: null
+});
 export default CuestionaryContext; 
 
-type AuthProviderProps = {
-    children: ReactNode
-};
 
 
  export const CuestionaryProvider: React.FC  = ({children}) => {
@@ -24,40 +30,48 @@ type AuthProviderProps = {
     //2. Nombre cuestionario
     //3. Pregunta (opciones, la opcion correcta, enunciado)
 
-    const [preguntas, setPreguntas] = useState([])
+    const [cuestionario, setCuestionario] = useState <ICuestionary>({
+        id: 0, 
+        nombre: 'nombre',
+        preguntas: [] 
+    })
 
-    const siguiente = (indiceActual: number) => {
-        const siguientePregunta = preguntas[indiceActual+1]
+    const siguientePregunta = (indicePreguntaActual: number) => {
+        const siguientePregunta = cuestionario.preguntas[indicePreguntaActual+1]
     }
 
 
     const cuestionaryValues: ICuestionaryContext = {
-        preguntas: preguntas,
-        setPreguntas: setPreguntas,
-        siguiente: siguiente,
+        cuestionario: cuestionario,
+        setCuestionario: setCuestionario,
+        siguientePregunta: siguientePregunta,
     };
     
     
 
-    /*preguntas = [ 
-        {
+    /*cuestionario =  {
             id: 1,
-            enunciado: 'cual es la capital de chile',
-            opciones: [ 
+            nombre: 'mi cuestionario', 
+            preguntas: [
                 {
                     id: 1,
-                    valor: 'Santiago',
-                    correcta: true
-                },
-                {
-                    id:2,
-                    valor: 'Quito',
-                    correcta: false
+                    enunciado: 'cual es la capitadl de chile',
+                    opciones: [
+                        {
+                            id: 1,
+                            valor: 'Santiago',
+                            correcta: true
+                        },
+                        {
+                            id:2,
+                            valor: 'Quito',
+                            correcta: false
+                        }  
+                    ]
                 }
             ]
+            
         }
-    ]
-
     */
     
 
