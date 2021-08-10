@@ -23,7 +23,10 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { CuestionaryProvider } from './context/CuestionaryContext';
 import DetalleCuestionario from './pages/DetalleCuestionario';
-import Pregunta from './pages/Pregunta';
+import PreguntaCrear from './pages/PreguntaCrear';
+import PreguntaResolver from './pages/PreguntaResolver';
+import ResumenCuestionario from './pages/ResumenCuestionario';
+import ListaCuestionarios from './pages/ListaCuestionarios';
 
 const App: React.FC = () => (
   <IonApp>
@@ -35,9 +38,18 @@ const App: React.FC = () => (
             <DetalleCuestionario/>
           </Route>
 
-          <Route exact path="/cuestionario/pregunta/:id" component={Pregunta} />
+          <Route exact path="/cuestionario/pregunta/:id" component={PreguntaCrear} />
            
+          <Route exact path="/cuestionario/resumen">
+            <ResumenCuestionario/>
+          </Route>
+
+           <Route exact path="/cuestionario/lista" component= {ListaCuestionarios} />
           
+
+          <Route exact path="/cuestionario/:idCuestionario/resolver/pregunta/:idPregunta" component={PreguntaResolver} />
+          
+
           <Route exact path="/home">
               <Home />
           </Route>

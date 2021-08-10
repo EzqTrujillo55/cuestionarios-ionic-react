@@ -4,7 +4,9 @@ import React,{useState, useEffect, ReactNode, Context} from 'react';
 interface ICuestionaryContext {
     cuestionario: any,
     setCuestionario: any,
-    siguientePregunta: any
+    siguientePregunta: any,
+    preguntaActual: any,
+    setPreguntaActual: any
 }
 
 interface ICuestionary {
@@ -13,11 +15,19 @@ interface ICuestionary {
     preguntas: []
 }
 
+interface IPregunta {
+    id: number,
+    enunciado: string, 
+    opciones: []
+}
+
 //Creando contexto
 const CuestionaryContext = React.createContext <ICuestionaryContext>({
     cuestionario: [],
     setCuestionario: null,
-    siguientePregunta: null
+    siguientePregunta: null,
+    preguntaActual: {},
+    setPreguntaActual: null
 });
 export default CuestionaryContext; 
 
@@ -36,6 +46,12 @@ export default CuestionaryContext;
         preguntas: [] 
     })
 
+    const [preguntaActual, setPreguntaActual] = useState <IPregunta>({
+        id: 0,
+        enunciado: '', 
+        opciones: []
+    })
+
     const siguientePregunta = (indicePreguntaActual: number) => {
         const siguientePregunta = cuestionario.preguntas[indicePreguntaActual+1]
     }
@@ -45,6 +61,8 @@ export default CuestionaryContext;
         cuestionario: cuestionario,
         setCuestionario: setCuestionario,
         siguientePregunta: siguientePregunta,
+        preguntaActual: preguntaActual,
+        setPreguntaActual: setPreguntaActual
     };
     
     

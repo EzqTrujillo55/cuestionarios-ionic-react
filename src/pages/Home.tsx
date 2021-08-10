@@ -28,6 +28,9 @@ const Home: React.FC = () => {
         <IonItem routerLink="/cuestionario/detalle">
           <IonButton> Crear Cuestionario </IonButton>
         </IonItem>
+        <IonItem routerLink="/cuestionario/lista">
+          <IonButton> Cuestionarios </IonButton>
+        </IonItem>
       </IonContent>
     </IonPage>
   );

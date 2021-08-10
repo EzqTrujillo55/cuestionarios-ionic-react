@@ -9,7 +9,7 @@ interface PreguntaProps extends RouteComponentProps<{
 }> {}
 
 
-const Pregunta: React.FC<PreguntaProps> = ({ match, history }) => {
+const PreguntaCrear: React.FC<PreguntaProps> = ({ match, history }) => {
     const cuestionary = useContext(CuestionaryContext);
     const [enunciado, setEnunciado] = useState('');
     const [opcion1, setOpcion1] = useState({ id: 1, valor: "", correcta: false });
@@ -50,26 +50,79 @@ const Pregunta: React.FC<PreguntaProps> = ({ match, history }) => {
         })*/
 
 
+        const idActual = parseInt(match.params.id)
+        const posicionActual = idActual-1
+        
+
         let preguntasActuales = cuestionary.cuestionario.preguntas; 
-        preguntasActuales.push({
-            id: preguntasActuales.length + 1, //aumento el id en base a la cantidad de preguntas actuales
-            enunciado: enunciado,
-            opciones: [opcion1, opcion2, opcion3, opcion4]
-        })
+
+        if( typeof preguntasActuales[posicionActual] === 'undefined'){
+            preguntasActuales.push({
+                id: preguntasActuales.length + 1, //aumento el id en base a la cantidad de preguntas actuales
+                enunciado: enunciado,
+                opciones: [opcion1, opcion2, opcion3, opcion4]
+            })       
+        }else{
+            preguntasActuales[posicionActual] = {
+                enunciado: enunciado,
+                opciones: [opcion1, opcion2, opcion3, opcion4]
+            }
+        }
 
         cuestionary.setCuestionario((prevState:any) => ({ 
             ...prevState, 
             preguntas: preguntasActuales
         }))
 
-        setEnunciado("");
-        setOpcion1({ id: 1, valor: "", correcta: false });
-        setOpcion2({ id: 2, valor: "", correcta: false });
-        setOpcion3({ id: 3, valor: "", correcta: false });
-        setOpcion4({ id: 4, valor: "", correcta: false });
-        history.push(`/cuestionario/pregunta/${parseInt(match.params.id)+1}`);
+
+
+        const idSiguiente = parseInt(match.params.id) + 1
+        const posicionSiguiente = idSiguiente-1
+
+        if( typeof preguntasActuales[posicionSiguiente] === 'undefined'){
+            setEnunciado("");
+            setOpcion1({ id: 1, valor: "", correcta: false });
+            setOpcion2({ id: 2, valor: "", correcta: false });
+            setOpcion3({ id: 3, valor: "", correcta: false });
+            setOpcion4({ id: 4, valor: "", correcta: false });
+        }else{
+            let preguntaEncontrada = preguntasActuales[posicionSiguiente]
+            setEnunciado(preguntaEncontrada.enunciado); 
+            setOpcion1(preguntaEncontrada.opciones[0])
+            setOpcion2(preguntaEncontrada.opciones[1])
+            setOpcion3(preguntaEncontrada.opciones[2])
+            setOpcion4(preguntaEncontrada.opciones[3])
+        }
+
+
+        if(idSiguiente <=3){
+            history.push(`/cuestionario/pregunta/${parseInt(match.params.id)+1}`);
+        }else if(idSiguiente>3){
+            history.push('/cuestionario/resumen')
+        }
+        
     }
 
+
+
+    const anterior = () => {
+        const idAnterior = parseInt(match.params.id)-1
+        let posicion = idAnterior - 1; 
+        console.log('posicion', posicion)
+        console.log('cuestionario selecc', cuestionary.cuestionario.preguntas[posicion]);
+        
+        let preguntaAnterior = cuestionary.cuestionario.preguntas[posicion];
+
+        setEnunciado(preguntaAnterior.enunciado);
+        setOpcion1(preguntaAnterior.opciones[0])
+        setOpcion2(preguntaAnterior.opciones[1])
+        setOpcion3(preguntaAnterior.opciones[2])
+        setOpcion4(preguntaAnterior.opciones[3])
+
+        history.push(`/cuestionario/pregunta/${idAnterior}`);
+    }
+
+   
     
 
   
@@ -101,8 +154,11 @@ const Pregunta: React.FC<PreguntaProps> = ({ match, history }) => {
                     <IonInput value={opcion4.valor} onIonChange={(e) => setOpcion4(prevState => ({ ...prevState, valor: e.detail.value!})) } />
                     
                 </IonCard>
+                {
+                    parseInt(match.params.id)>1 && <IonButton onClick={anterior}> Anterior </IonButton>
+                }
                 <IonButton onClick={handleSiguiente}>Siguiente</IonButton>
-
+                
               
 
                 <IonCard>
@@ -120,4 +176,4 @@ const Pregunta: React.FC<PreguntaProps> = ({ match, history }) => {
     )
 }
 
-export default Pregunta;
+export default PreguntaCrear;
