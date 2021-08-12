@@ -6,12 +6,20 @@ interface ICuestionaryContext {
     setCuestionario: any,
     siguientePregunta: any,
     preguntaActual: any,
-    setPreguntaActual: any
+    setPreguntaActual: any,
+    cuestionarioRespondido: any,
+    setCuestionarioRespondido: any
 }
 
 interface ICuestionary {
     id: number,
     nombre: string, 
+    preguntas: []
+}
+
+interface ICuestionaryRespondido{
+    id: number,
+    nombre: string,
     preguntas: []
 }
 
@@ -27,7 +35,9 @@ const CuestionaryContext = React.createContext <ICuestionaryContext>({
     setCuestionario: null,
     siguientePregunta: null,
     preguntaActual: {},
-    setPreguntaActual: null
+    setPreguntaActual: null,
+    cuestionarioRespondido: [],
+    setCuestionarioRespondido: null
 });
 export default CuestionaryContext; 
 
@@ -46,6 +56,13 @@ export default CuestionaryContext;
         preguntas: [] 
     })
 
+
+    const [cuestionarioRespondido, setCuestionarioRespondido] = useState <ICuestionaryRespondido>({
+        id: 0,
+        nombre:'nombre',
+        preguntas: []
+    }) 
+
     const [preguntaActual, setPreguntaActual] = useState <IPregunta>({
         id: 0,
         enunciado: '', 
@@ -62,7 +79,9 @@ export default CuestionaryContext;
         setCuestionario: setCuestionario,
         siguientePregunta: siguientePregunta,
         preguntaActual: preguntaActual,
-        setPreguntaActual: setPreguntaActual
+        setPreguntaActual: setPreguntaActual,
+        cuestionarioRespondido: cuestionarioRespondido,
+        setCuestionarioRespondido: setCuestionarioRespondido
     };
     
     

@@ -27,6 +27,8 @@ import PreguntaCrear from './pages/PreguntaCrear';
 import PreguntaResolver from './pages/PreguntaResolver';
 import ResumenCuestionario from './pages/ResumenCuestionario';
 import ListaCuestionarios from './pages/ListaCuestionarios';
+import ResumenCuestionarioResuelto from './pages/ResumenCuestionarioResuelto';
+import Calificacion from './pages/Calificacion';
 
 const App: React.FC = () => (
   <IonApp>
@@ -49,6 +51,12 @@ const App: React.FC = () => (
 
           <Route exact path="/cuestionario/:idCuestionario/resolver/pregunta/:idPregunta" component={PreguntaResolver} />
           
+          <Route exact path="/cuestionario/:idCuestionario/resolver/resumen" component={ResumenCuestionarioResuelto} />
+
+
+          <Route exact path="/cuestionario/calificacion">
+            <Calificacion/>
+          </Route>
 
           <Route exact path="/home">
               <Home />
