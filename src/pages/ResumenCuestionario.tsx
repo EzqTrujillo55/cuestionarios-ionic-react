@@ -1,6 +1,7 @@
-import { IonContent, IonPage, IonText, IonTitle, IonLabel, IonCard } from '@ionic/react';
+import { IonContent, IonPage, IonText, IonTitle, IonLabel, IonCard, IonButton } from '@ionic/react';
 import React, { useContext, useEffect } from 'react';
 import CuestionaryContext from '../context/CuestionaryContext';
+import { db } from '../firebase/config';
 
 
 const ResumenCuestionario = () => {
@@ -9,6 +10,19 @@ const ResumenCuestionario = () => {
     useEffect(() => {
         console.log('cues', cuestionary.cuestionario);
     }, [])
+
+    const guardar = () => {
+        var cuestionarioRef = db.collection('cuestionarios');
+        cuestionarioRef.add(cuestionary.cuestionario)
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+            alert('Cuestionario creado exitosamente!');
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+            alert('Algo ha salido mal, intenta luego de nuevo!')
+        });
+    }
     
     return(
         <IonPage>
@@ -32,6 +46,7 @@ const ResumenCuestionario = () => {
                             </IonCard>
                         )
                     }
+                <IonButton onClick={() => guardar()} > Finalizar</IonButton>
             </IonContent>
         </IonPage>
     )   
