@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import {useEffect} from 'react'; 
@@ -32,6 +32,8 @@ import ListaCuestionarios from './pages/ListaCuestionarios';
 import ResumenCuestionarioResuelto from './pages/ResumenCuestionarioResuelto';
 import Calificacion from './pages/Calificacion';
 import { fb, firebaseConfig } from "./firebase/config";
+import Menu from './containers/MenuContainer';
+import Login from './pages/Login';
 
 const App: React.FC = () => {
   
@@ -40,8 +42,16 @@ const App: React.FC = () => {
   <IonApp>
     
     <IonReactRouter>
-      <IonRouterOutlet>
+    <IonSplitPane contentId="main">
+    <Menu/>
+
+      {
+        localStorage.getItem('isAuth')!= ""? 
+        <IonRouterOutlet  id="main">
         <CuestionaryProvider>
+          
+         
+          
           <Route exact path="/cuestionario/detalle">
             <DetalleCuestionario/>
           </Route>
@@ -68,12 +78,18 @@ const App: React.FC = () => {
               <Home />
           </Route>
           
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
+         
           
-        </CuestionaryProvider>
-      </IonRouterOutlet>
+          </CuestionaryProvider>
+          </IonRouterOutlet>
+         :
+         <IonRouterOutlet  id="main">
+            <Login />
+         </IonRouterOutlet>
+      }
+
+      
+      </IonSplitPane>
     </IonReactRouter>
   </IonApp>
   )

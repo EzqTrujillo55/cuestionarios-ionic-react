@@ -13,3 +13,24 @@ export const firebaseConfig = {
 export const fb = firebase.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
  
+export const authentication = async (email, password) => {
+    try {
+        const response = await firebase.auth().signInWithEmailAndPassword(email,password); 
+        console.log(response); 
+        return true;
+    } catch (error) {
+        console.log(error)
+        return false;         
+    }
+}
+
+export const logout =  () => {
+    try{
+        const lo = firebase.auth().signOut(); 
+        console.log('lo', lo)
+        return true;
+    } catch(error){
+        console.log('error', error);
+        return false
+    } 
+}

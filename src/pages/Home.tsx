@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem } from '@ionic/react';
+import {IonButtons, IonMenuButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem } from '@ionic/react';
 import { useState } from 'react';
 import Contador from '../components/Contador';
 import ExploreContainer from '../components/ExploreContainer';
@@ -12,17 +12,18 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
+       <IonHeader>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Home</IonTitle>
         </IonToolbar>
       </IonHeader>
+      
+
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        
         
        {/* <Contador numero={numero} setNumero={setNumero} letra="M" /> */} 
         <IonItem routerLink="/cuestionario/detalle">

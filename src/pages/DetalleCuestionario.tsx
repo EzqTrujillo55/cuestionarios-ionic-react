@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonContent, IonInput, IonItem, IonLabel } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonButton, IonCard, IonContent, IonInput, IonItem, IonLabel } from '@ionic/react';
 import React, { useContext, useState } from 'react';
 import CuestionaryContext from '../context/CuestionaryContext';
 
@@ -17,6 +17,16 @@ const DetalleCuestionario:React.FC = () => {
     
     
     return(
+        <IonPage>
+                 <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Nuevo Cuestionario</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+        
         <IonContent>
             <IonCard>
                 <IonLabel> Nombre del cuestionario </IonLabel>
@@ -29,6 +39,7 @@ const DetalleCuestionario:React.FC = () => {
                 {cuestionary.cuestionario.nombre}
             </IonCard>
         </IonContent>
+        </IonPage>
     )
 }
 

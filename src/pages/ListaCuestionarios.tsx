@@ -1,4 +1,4 @@
-import { IonPage, IonCard, IonTitle, IonLabel, IonText, IonContent} from '@ionic/react';
+import {IonHeader, IonToolbar, IonButtons, IonMenuButton, IonPage, IonCard, IonTitle, IonLabel, IonText, IonContent, IonInput, IonButton } from '@ionic/react';
 import React, {useEffect, useState} from 'react';
 import { RouteComponentProps } from 'react-router';
 import { db } from '../firebase/config';
@@ -8,6 +8,7 @@ interface ListaProps extends RouteComponentProps <{}> {}
 
 const ListaCuestionarios : React.FC<ListaProps> = ({ match, history }) => {
     const [cuestionarios, setCuestionarios] = useState([]); 
+    const [busqueda, setBusqueda ] = useState(""); 
     /*const cuestionarios = [
         {
             nombre: 'Cuestionario 1',
@@ -62,9 +63,41 @@ const ListaCuestionarios : React.FC<ListaProps> = ({ match, history }) => {
         });
     }, [])
     
+
+    function handleBuscar(){
+        if(busqueda === ""){
+            alert('Debe llenar el campo!')
+            return;
+        }
+        db.collection("cuestionarios").where("nombre", "==", busqueda).get()
+        .then((respuesta) => {
+            let aux:any = []
+            respuesta.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                let documentoCompleto = doc.data();
+                documentoCompleto['id'] = doc.id; 
+                aux.push(documentoCompleto)
+            });
+            setCuestionarios(aux); 
+        });
+
+    }
+
     return(
         <IonPage>
+             <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Cuestionarios</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+            
             <IonContent>
+                <IonLabel> Buscar por texto </IonLabel>
+                <IonInput onIonChange={(e) => setBusqueda(e.detail.value!)}  />
+                <IonButton onClick={ handleBuscar } > Buscar </IonButton>
                 <IonText> Lista de cuestionarios </IonText>
                 {
                     cuestionarios.map((cuestionario:any, index:number) => <IonCard key={index} onClick={() => history.push('1/resolver/pregunta/1')} >
